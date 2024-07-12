@@ -6,6 +6,6 @@ router.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-router.get("/get-user", userController.getUser);
+router.get("/get-user", requestCanceller, userController.getUser);
 
 export { router as indexRouter };
