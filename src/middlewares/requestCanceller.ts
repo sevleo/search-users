@@ -10,11 +10,11 @@ const activeRequests = new Map();
 const requestCanceller = (req: Request, res: Response, next: NextFunction) => {
   const requestId = req.ip;
 
-  console.log(requestId);
-  console.log(activeRequests);
+  // console.log(requestId);
+  // console.log(activeRequests);
 
   if (activeRequests.has(requestId)) {
-    console.log(activeRequests);
+    // console.log(activeRequests);
 
     // Destructuring requestId from activeRequests, also renaming res  to activeRes to avoid conflict with res variable
     const { timeout, res: activeRes } = activeRequests.get(requestId);

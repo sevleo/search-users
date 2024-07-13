@@ -3,7 +3,9 @@ import User from "../models/user";
 import { Request } from "express";
 
 const getUser = asyncHandler(async (req: Request, res: any) => {
-  const { email, number } = req.query;
+  const { email, number } = req.query as { email: string; number?: string };
+  // console.log(email);
+  // console.log(number);
 
   // Find users that match both the email and the phone number
   if (email && number) {
