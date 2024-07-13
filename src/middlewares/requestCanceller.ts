@@ -1,3 +1,8 @@
+// Изначально пытался сделать отмену реквестов на беке, и такая реализация рабоатет в постмане,
+// но не работает в браузере, когда включен e.preventDefault()
+// В итоге нашел решение https://developer.mozilla.org/en-US/docs/Web/API/AbortController
+// При необходимости отменять запросы не только с браузера, но и с сервера , можно будет включить requestCanceller.
+
 import { Request, Response, NextFunction } from "express";
 
 const activeRequests = new Map();
@@ -5,8 +10,11 @@ const activeRequests = new Map();
 const requestCanceller = (req: Request, res: Response, next: NextFunction) => {
   const requestId = req.ip;
 
+  console.log(requestId);
+  console.log(activeRequests);
+
   if (activeRequests.has(requestId)) {
-    // console.log(activeRequests);
+    console.log(activeRequests);
 
     // Destructuring requestId from activeRequests, also renaming res  to activeRes to avoid conflict with res variable
     const { timeout, res: activeRes } = activeRequests.get(requestId);

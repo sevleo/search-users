@@ -14,7 +14,11 @@ const getUser = asyncHandler(async (req, res) => {
       email: email,
       number: number,
     });
-    res.status(200).json({ success: users, ipAddress: req.ip });
+    if (users.length > 0) {
+      res.status(200).json({ data: users });
+    } else {
+      res.status(400).json("No users matching the criteria");
+    }
   }
 
   // Find users that match the email
@@ -22,7 +26,11 @@ const getUser = asyncHandler(async (req, res) => {
     const users = await User.find({
       email: email,
     });
-    res.status(200).json({ success: users, ipAddres: req.ip });
+    if (users.length > 0) {
+      res.status(200).json({ data: users });
+    } else {
+      res.status(400).json("No users matching the criteria");
+    }
   }
 });
 

@@ -2,10 +2,11 @@ import { configDotenv } from "dotenv";
 configDotenv();
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import { indexRouter } from "./routes/indexRouter";
 // import loadTestData from "./scripts/loadTestData";
 
-// Database setup
+// MongoDB setup
 const mongoDB = process.env["MONGO_DB"];
 
 if (!mongoDB) {
@@ -14,9 +15,27 @@ if (!mongoDB) {
 
 mongoose.connect(mongoDB, { dbName: "users" });
 const db = mongoose.connection;
-db.on("error", console.error.bind(console, "mongo connection error"));
+
+db.on("connected", () => {
+  console.log("MongoDB connection established successfully");
+});
+
+db.on("error", (err) => {
+  console.error("MongoDB connection error:", err);
+});
 
 const app = express();
+
+const corsOptions = {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+app.set("trust proxy", true);
 
 app.use("/", indexRouter);
 
