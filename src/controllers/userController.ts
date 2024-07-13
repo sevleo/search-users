@@ -1,12 +1,9 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/user";
+import { Request } from "express";
 
-const getUser = asyncHandler(async (req, res) => {
+const getUser = asyncHandler(async (req: Request, res: any) => {
   const { email, number } = req.query;
-
-  if (!email) {
-    res.status(400).json({ error: "Email is missing" });
-  }
 
   // Find users that match both the email and the phone number
   if (email && number) {
