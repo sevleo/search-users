@@ -1,5 +1,7 @@
 import userController from "../controllers/userController";
 import express from "express";
+import requestCanceller from "../middlewares/requestCanceller";
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
